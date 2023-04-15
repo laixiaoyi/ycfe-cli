@@ -47,4 +47,4 @@ class Command {
   }
 }
 
-module.exports = Command;
+export default  Command;

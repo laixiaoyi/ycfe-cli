@@ -2,7 +2,7 @@
   "name": "@ycfe-cli/utils",
   "version": "0.0.0",
   "description": "ycfe-cli utils",
-  "author": "zhigang <102219991@qq.com>",
+  "author": "赖小一 <102219991@qq.com>",
   "homepage": "",
   "license": "ISC",
   "main": "lib/index.js",

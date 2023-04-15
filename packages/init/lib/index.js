@@ -1,5 +1,5 @@
-const Command = require('@ycfe-cli/command');
-const { log } = require('@ycfe-cli/utils');
+import Command from '@ycfe-cli/command';
+import { log } from '@ycfe-cli/utils';
 
 class InitCommand extends Command {
   get command() {
@@ -25,4 +25,4 @@ function Init(instance) {
   return new InitCommand(instance);
 }
 
-module.exports = Init;
+export default Init;

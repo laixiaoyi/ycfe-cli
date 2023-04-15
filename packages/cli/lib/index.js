@@ -1,11 +1,17 @@
-const { program } = require('commander');
-const semver = require('semver');
-const chalk = require('chalk');
-const createInitCommand = require('@ycfe-cli/init');
-const { log, isDebug } = require('@ycfe-cli/utils');
-const pkg = require('../package.json');
+import path from 'node:path';
+import { program } from 'commander';
+import semver from 'semver';
+import chalk from 'chalk';
+import fse from 'fs-extra';
+import { dirname } from 'dirname-filename-esm';
+import createInitCommand from '@ycfe-cli/init';
+import { isDebug } from '@ycfe-cli/utils';
 
-const LOWEST_NODE_VERSION = '17.0.0';
+const __dirname = dirname(import.meta);
+const pkgPath = path.resolve(__dirname, '../package.json');
+const pkg = fse.readJSONSync(pkgPath);
+
+const LOWEST_NODE_VERSION = '14.0.0';
 
 function checkNodeVersion() {
   if (!semver.gte(process.version, LOWEST_NODE_VERSION)) {
@@ -26,7 +32,7 @@ process.on('uncaughtException', e => {
   }
 });
 
-module.exports = function(args) {
+export default function() {
   program
     .name(Object.keys(pkg.bin)[0])
     .usage('<command> [options]')

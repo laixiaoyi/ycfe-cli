@@ -2,7 +2,7 @@
   "name": "@ycfe-cli/init",
   "version": "0.0.0",
   "description": "init command",
-  "author": "zhigang <102219991@qq.com>",
+  "author": "赖小一 <102219991@qq.com>",
   "homepage": "",
   "license": "ISC",
   "main": "lib/index.js",
