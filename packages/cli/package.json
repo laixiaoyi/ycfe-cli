@@ -1,0 +1,32 @@
+{
+  "name": "@ycfe-cli/cli",
+  "version": "0.0.0",
+  "description": "雨辰前端脚手架",
+  "author": "zhigang <102219991@qq.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "bin": {
+    "fe-cli": "bin/cli.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib",
+    "bin"
+  ],
+  "scripts": {
+    "test": "node ./__tests__/cli.test.js"
+  },
+  "dependencies": {
+    "@ycfe-cli/init": "^0.0.0",
+    "@ycfe-cli/utils": "^0.0.0",
+    "chalk": "^5.2.0",
+    "commander": "^10.0.0",
+    "import-local": "^3.1.0",
+    "semver": "^7.4.0"
+  },
+  "type": "module"
+}
