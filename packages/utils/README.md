@@ -1,6 +1,6 @@
 # `utils`
 
-> TODO: description
+> TODO: ycfe-cli utils
 
 ## Usage
 
