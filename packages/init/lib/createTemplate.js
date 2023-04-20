@@ -1,11 +1,18 @@
-import { log, makeList } from '@ycfe-cli/utils';
+import { log, makeList, makeInput, getLatestVersion } from '@ycfe-cli/utils';
 
 const ADD_TYPE_PROJECT = 'project';
 const ADD_TYPE_PAGE = 'page';
 const ADD_TEMPLATE = [
   {
     name: 'vue2项目模板',
+    value: 'template-vue2',
     npmName: '@ycfe-cli/template-vue2',
+    version: '1.0.0'
+  }, {
+    //TODO: 待添加
+    name: 'vue3项目模板',
+    value: 'template-vue3',
+    npmName: '@ycfe-cli/template-vue3',
     version: '1.0.0'
   }
 ];
@@ -19,16 +26,48 @@ const ADD_TYPE = [
   }
 ];
 
-// 获取创建类型
+// 获取初始化类型
 function getAddType() {
   return makeList({
     choices: ADD_TYPE,
-    message: '清选择初始化类型',
+    message: '请选择初始化类型',
     defaultValue: ADD_TYPE_PROJECT
   });
 }
 
+// 获取项目名称
+function getAddName() {
+  return makeInput({
+    message: '请输入项目名称',
+    defaultValue: ''
+  })
+}
+
+// 选择项目模板
+function getAddTemplate() {
+  return makeList({
+    choices: ADD_TEMPLATE,
+    message: '请选择项目模板',
+  })
+}
+
 export default async function createTemplate(name, opts) {
   const addType = await getAddType();
-  log.verbose('addType', addType);
+  log.verbose('初始化类型：', addType);
+  if (addType === ADD_TYPE_PROJECT) {
+    const addName = await getAddName();
+    log.verbose('项目名称：', addName);
+    const addTemplate = await getAddTemplate();
+    const selectedTemplate = ADD_TEMPLATE.find(item => item.value === addTemplate);
+    log.verbose('选择模板：', selectedTemplate);
+    // 获取最新版本号模板
+    const latestVersion = await getLatestVersion(selectedTemplate.npmName);
+    log.verbose(`${selectedTemplate.npmName}模板最新版本号：`, latestVersion);
+    selectedTemplate.version = latestVersion;
+    return {
+      type: addType,
+      name: addName,
+      template: selectedTemplate
+    }
+  }
 }

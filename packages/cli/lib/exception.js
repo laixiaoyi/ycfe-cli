@@ -4,7 +4,7 @@ function printErrorLog(e, type) {
   if (isDebug()) {
     log.error(type, e);
   } else {
-    log.error(type, e.message);
+    log.error(type, e.message || e);
   }
 }
 
