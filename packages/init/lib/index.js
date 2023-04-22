@@ -2,6 +2,7 @@ import Command from '@ycfe-cli/command';
 import { log } from '@ycfe-cli/utils';
 
 import createTemplate from './createTemplate.js';
+import downLoadTemplate from './downLoadTemplate.js';
 
 class InitCommand extends Command {
   get command() {
@@ -19,11 +20,12 @@ class InitCommand extends Command {
   }
   
   async action([name, opts]) {
-    log.verbose('init', name, opts);
+    log.verbose('init参数：', name, opts);
     // 1.选择项目模板，生成项目信息
-    const template = await createTemplate(name, opts);
-    // log.verbose('template', template);
+    const selectedTemplate = await createTemplate(name, opts);
+    log.verbose('选中模板：', selectedTemplate);
     // 2.下载项目模板至缓存目录
+    await downLoadTemplate(selectedTemplate);
     // 3.安装项目模板至项目目录
   }
 }

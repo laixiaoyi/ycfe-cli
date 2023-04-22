@@ -12,10 +12,10 @@ export async function getLatestVersion(npmName) {
   try {
     const { data } = await getNpmInfo(npmName);
     if (!data['dist-tags']?.latest) {
-      return Promise.reject(`${npmName}：没有最新版本号`);
+      return Promise.reject(new Error(`${npmName}：没有最新版本号`));
     };
     return data['dist-tags'].latest;
   } catch(err) {
-    return Promise.reject(`${npmName}：${err.response.statusText}`);
+    return Promise.reject(new Error(`${npmName}：${err.response.statusText}`));
   }
 }

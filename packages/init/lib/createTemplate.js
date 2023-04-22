@@ -1,3 +1,5 @@
+import path from 'node:path';
+import { homedir } from 'node:os';
 import { log, makeList, makeInput, getLatestVersion } from '@ycfe-cli/utils';
 
 const ADD_TYPE_PROJECT = 'project';
@@ -25,6 +27,7 @@ const ADD_TYPE = [
     value: ADD_TYPE_PAGE
   }
 ];
+const TEMP_HOME = '.ycfe-cli';
 
 // 获取初始化类型
 function getAddType() {
@@ -39,7 +42,13 @@ function getAddType() {
 function getAddName() {
   return makeInput({
     message: '请输入项目名称',
-    defaultValue: ''
+    defaultValue: '',
+    validate(value) {
+      if (value.length > 0) {
+        return true;
+      }
+      return '项目名称必须输入！';
+    }
   })
 }
 
@@ -49,6 +58,11 @@ function getAddTemplate() {
     choices: ADD_TEMPLATE,
     message: '请选择项目模板',
   })
+}
+
+// 安装缓存目录
+function makeTargetPath() {
+  return path.resolve(`${homedir()}/${TEMP_HOME}`, 'addTemplate');
 }
 
 export default async function createTemplate(name, opts) {
@@ -64,10 +78,12 @@ export default async function createTemplate(name, opts) {
     const latestVersion = await getLatestVersion(selectedTemplate.npmName);
     log.verbose(`${selectedTemplate.npmName}模板最新版本号：`, latestVersion);
     selectedTemplate.version = latestVersion;
+    const targetPath = makeTargetPath();
     return {
       type: addType,
       name: addName,
-      template: selectedTemplate
+      template: selectedTemplate,
+      targetPath
     }
   }
 }
