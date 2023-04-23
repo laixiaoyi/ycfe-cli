@@ -3,6 +3,7 @@ import { log } from '@ycfe-cli/utils';
 
 import createTemplate from './createTemplate.js';
 import downLoadTemplate from './downLoadTemplate.js';
+import installTemplate from './installTemplate.js';
 
 class InitCommand extends Command {
   get command() {
@@ -27,6 +28,7 @@ class InitCommand extends Command {
     // 2.下载项目模板至缓存目录
     await downLoadTemplate(selectedTemplate);
     // 3.安装项目模板至项目目录
+    installTemplate(selectedTemplate, opts);
   }
 }
 

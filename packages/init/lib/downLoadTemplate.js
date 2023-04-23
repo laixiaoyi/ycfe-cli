@@ -22,21 +22,21 @@ async function downLoadAddTemplate(targetPath, template) {
   const installCommand = 'npm';
   const installArgs = ['install', `${npmName}@${version}`];
   const cwd = targetPath;
-  log.verbose('安装参数：', installArgs);
-  log.verbose('安装目录：', cwd);
-  await execa(installCommand, installArgs, { cwd });
-}
-
-export default async function downLoadTemplate(selectedTemplate) {
-  const { targetPath, template } = selectedTemplate;
-  makeCacheDir(targetPath);
+  log.verbose('下载参数：', installArgs);
+  log.verbose('下载目录：', cwd);
   const spinner = ora('正在下载模板...').start();
   try {
-    await downLoadAddTemplate(targetPath, template);
+    await execa(installCommand, installArgs, { cwd });
     spinner.stop();
     log.success('模板下载成功');
   } catch (e) {
     spinner.stop();
     printErrorLog(e);
   }
+}
+
+export default async function downLoadTemplate(selectedTemplate) {
+  const { targetPath, template } = selectedTemplate;
+  makeCacheDir(targetPath);
+  await downLoadAddTemplate(targetPath, template);
 }
