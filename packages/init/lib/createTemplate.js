@@ -23,6 +23,7 @@ const ADD_TYPE = [
     name: '项目',
     value: ADD_TYPE_PROJECT
   }, {
+    // TODO: 待添加
     name: '页面',
     value: ADD_TYPE_PAGE
   }
@@ -60,30 +61,48 @@ function getAddTemplate() {
   })
 }
 
-// 安装缓存目录
-function makeTargetPath() {
+// 获取缓存目录
+function getTargetPath() {
   return path.resolve(`${homedir()}/${TEMP_HOME}`, 'addTemplate');
 }
 
 export default async function createTemplate(name, opts) {
-  const addType = await getAddType();
+  const { type = null, template = null } = opts;
+  let addType; // 项目类型
+  let addName; // 项目名称
+  let selectedTemplate; // 项目模板
+  if (type) {
+    addType = type;
+  } else {
+    addType = await getAddType();
+  }
   log.verbose('初始化类型：', addType);
-  if (addType === ADD_TYPE_PROJECT) {
-    const addName = await getAddName();
-    log.verbose('项目名称：', addName);
-    const addTemplate = await getAddTemplate();
-    const selectedTemplate = ADD_TEMPLATE.find(item => item.value === addTemplate);
-    log.verbose('选择模板：', selectedTemplate);
-    // 获取最新版本号模板
-    const latestVersion = await getLatestVersion(selectedTemplate.npmName);
-    log.verbose(`${selectedTemplate.npmName}模板最新版本号：`, latestVersion);
-    selectedTemplate.version = latestVersion;
-    const targetPath = makeTargetPath();
-    return {
-      type: addType,
-      name: addName,
-      template: selectedTemplate,
-      targetPath
+  if (addType !== ADD_TYPE_PROJECT) throw new Error(`创建的项目类型 ${addType} 不支持！`);
+  if (name) {
+    addName = name;
+  } else {
+    addName = await getAddName();
+  }
+  log.verbose('项目名称：', addName);
+  if (template) {
+    selectedTemplate = ADD_TEMPLATE.find(tp => tp.value === template);
+    if (!selectedTemplate) {
+      throw new Error(`项目模板 ${template} 不存在！`);
     }
+  } else {
+    const addTemplate = await getAddTemplate();
+    selectedTemplate = ADD_TEMPLATE.find(item => item.value === addTemplate);
+  }
+  log.verbose('选择模板：', selectedTemplate);
+  // 获取最新版本号模板
+  const latestVersion = await getLatestVersion(selectedTemplate.npmName);
+  log.verbose(`${selectedTemplate.npmName}模板最新版本号：`, latestVersion);
+  selectedTemplate.version = latestVersion;
+  const targetPath = getTargetPath();
+  return {
+    type: addType,
+    name: addName,
+    template: selectedTemplate,
+    targetPath
   }
 }

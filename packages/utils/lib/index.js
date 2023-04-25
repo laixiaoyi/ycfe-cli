@@ -1,19 +1,15 @@
 import log from './log.js';
 import isDebug from './isDebug.js';
+import printErrorLog from './printErrorLog.js';
 import { makeList, makeInput } from './inquirer.js';
-import { getLatestVersion } from './npm.js'
+import { getLatestVersion } from './npm.js';
 
-export function printErrorLog(e, type) {
-  if (isDebug()) {
-    log.error(type, e);
-  } else {
-    log.error(type, e.message || e);
-  }
-}
+
 
 export {
   log,
   isDebug,
+  printErrorLog,
   makeList,
   makeInput,
   getLatestVersion,

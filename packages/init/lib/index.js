@@ -4,7 +4,11 @@ import { log } from '@ycfe-cli/utils';
 import createTemplate from './createTemplate.js';
 import downLoadTemplate from './downLoadTemplate.js';
 import installTemplate from './installTemplate.js';
-
+/**
+ * 示例
+ * fe-cli init
+ * fe-cli init projectName -t project -tp template-vue2 -f
+ */
 class InitCommand extends Command {
   get command() {
     return 'init [name]';
@@ -16,7 +20,9 @@ class InitCommand extends Command {
 
   get options() {
     return [
-      ['-f, --force', '是否强制更新', false]
+      ['-f, --force', '是否强制更新', false],
+      ['-t, --type <type>', '项目类型(值：project | page)'],
+      ['-tp, --template <template>', '模板名称']
     ]
   }
   
