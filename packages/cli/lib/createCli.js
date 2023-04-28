@@ -12,18 +12,16 @@ const pkg = fse.readJSONSync(pkgPath);
 
 const LOWEST_NODE_VERSION = '14.0.0';
 
-function checkNodeVersion() {
+const checkNodeVersion = () => {
   if (!semver.gte(process.version, LOWEST_NODE_VERSION)) {
     throw new Error(chalk.red(`ycfe-cli 需要安装 ${LOWEST_NODE_VERSION} 以上版本的Node.js`));
   }
 }
 
-function perAction() {
-  // 检查Node版本
-  checkNodeVersion();
-}
+// 检查Node版本
+const perAction = () => checkNodeVersion();
 
-export default function createCli() {
+const createCli = () => {
   log.info('version', pkg.version);
 
   program
@@ -52,3 +50,5 @@ export default function createCli() {
 //     console.log('init', name, opts)
 //   });
 }
+
+export default createCli;

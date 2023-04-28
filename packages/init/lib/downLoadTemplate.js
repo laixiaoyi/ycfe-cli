@@ -6,18 +6,18 @@ import { execa } from 'execa';
 
 import { printErrorLog, log } from '@ycfe-cli/utils';
 
-function getCacheDir(targetPath) {
-  return path.resolve(targetPath, 'node_modules');
-}
+// 获取缓存目录
+const getCacheDir = targetPath => path.resolve(targetPath, 'node_modules');
 
-function makeCacheDir(targetPath) {
+// 判断缓存目录是否存在
+const makeCacheDir = targetPath => {
   const cacheDir = getCacheDir(targetPath);
   if (!pathExistsSync(cacheDir)) {
     fse.mkdirpSync(cacheDir);
   }
 }
 
-async function downLoadAddTemplate(targetPath, template) {
+const downLoadAddTemplate = async (targetPath, template) => {
   const { npmName, version } = template;
   const installCommand = 'npm';
   const installArgs = ['install', `${npmName}@${version}`];
@@ -35,8 +35,11 @@ async function downLoadAddTemplate(targetPath, template) {
   }
 }
 
-export default async function downLoadTemplate(selectedTemplate) {
+// 下载模板
+const downLoadTemplate = async selectedTemplate => {
   const { targetPath, template } = selectedTemplate;
   makeCacheDir(targetPath);
   await downLoadAddTemplate(targetPath, template);
-}
+};
+
+export default downLoadTemplate;

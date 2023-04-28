@@ -4,11 +4,11 @@ import { pathExistsSync } from 'path-exists';
 import ora from 'ora';
 import { log } from '@ycfe-cli/utils';
 
-function getCacheFilePath(targetPath, template) {
-  return path.resolve(targetPath, 'node_modules', template.npmName, 'template');
-}
+// 获取缓存路径
+const getCacheFilePath = (targetPath, template) => path.resolve(targetPath, 'node_modules', template.npmName, 'template');
 
-function copyFile(targetPath, template, installDir) {
+// 拷贝文件
+const copyFile = (targetPath, template, installDir) => {
   const originFile = getCacheFilePath(targetPath, template);
   const fileList = fse.readdirSync(originFile);
   const spinner = ora('正在拷贝模板文件...').start();
@@ -19,7 +19,8 @@ function copyFile(targetPath, template, installDir) {
   log.success('模板拷贝成功');
 }
 
-export default function installTemplate(selectedTemplate, opts) {
+// 安装模板
+const installTemplate = (selectedTemplate, opts) => {
   const { force = false } = opts;
   const { targetPath, name, template } = selectedTemplate;
   const rootDir = process.cwd();
@@ -38,3 +39,5 @@ export default function installTemplate(selectedTemplate, opts) {
   }
   copyFile(targetPath, template, installDir);
 }
+
+export default installTemplate;
